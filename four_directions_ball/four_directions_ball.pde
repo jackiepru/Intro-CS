@@ -7,7 +7,8 @@ void setup() {
 }
 
 void draw() {
-  background(20, 20, 200);
+  background(20, 200, 200);
+  fill (70, 200, 120);
   circle(x, y, 20);
   // if the ball is at x = 20 and y = 20, go down
   if (x == 20 && y == 20) {
