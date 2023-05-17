@@ -1,0 +1,141 @@
+boolean keyPressedF = false;
+Boolean Flag = true;
+int squareX = 250;
+int squareY = 430;
+int squareSize = 10;
+int x = 10;
+int ypos = 0;
+int xpos = 0;
+int yspeed = 1;
+int xspeed = 1;
+int r1;
+int r2;
+int squarespeed = 1;
+boolean GameOver = false;
+float[] xpositions = new float[12];
+float[] ypositions = new float[12];
+void setup() {
+  size(500, 500);
+  ResetBalls();
+}
+
+void draw() {
+
+
+  //checking if its GameOver
+  if (keyPressedF == false) {
+    background(0);
+
+    textSize(32);
+    fill(255);
+    text("Press any key to start evader game", 20, 100);
+    
+    text("how to play: use the arrow keys to \n" +
+    "move up down left and right. \n" +
+    "Avoid the balls that come in from the \n" +
+    "top and left sides of the screen. \n" + 
+    "The balls are spaced randomly and \n " +
+    "move faster after each round. ", 0, 200);
+  }
+  if (GameOver == true) {
+    textSize(32);
+    fill(255);
+    text("Press any key to play again", 20, 100);
+    text("game over", 200, 200);
+  } else if (keyPressedF) {
+    background(255, 0, 0);
+    game();
+  }
+}
+
+void game() {
+  text("Round = " + yspeed, 200, 300);
+  circle(xpos, ypos, 30);
+
+  ypos += yspeed;
+  xpos += xspeed;
+
+  for (int xpost = 1; xpost < 13; xpost = xpost + 1) {
+    circle(xpost * xpositions[x-1], ypos, 30);
+    if (dist( squareX, squareY, xpost * xpositions[x-1], ypos ) <= 1.59 + 15 ) {
+      GameOver = true;
+        
+      
+    }
+    if (ypos >= 500) {
+      ypos = 0;
+      xpositions[x-1] = random(55, 95);
+      yspeed = yspeed + 1;
+      if (yspeed >= 8) {
+        yspeed = 1;
+      }
+    }
+  }
+
+  for (int y = 1; y < 40; y = y + 1) {
+    circle(xpos, y * 75, 30);
+    if (dist( squareX, squareY, xpos, y * 75) <= 1.59 + 15 ) {
+      GameOver = true;
+    }
+    if (xpos >= 500) {
+      xpos = 0;
+      xspeed = xspeed + 1 ;
+      if (xspeed >= 8) {
+        xspeed = 1;
+      }
+    }
+  }
+
+
+
+
+
+  fill(255);
+  circle(squareX, squareY, squareSize);
+  squarespeed = squarespeed + 1;
+  if (keyCode == LEFT) {
+    squareX -= 3;
+  } else if (keyCode == RIGHT) {
+    squareX += 3;
+  }
+  if (keyCode == DOWN) {
+    squareY += 3;
+  } else if (keyCode == UP) {
+    squareY -= 3;
+  }
+
+  if (squareX >= 500) {
+    text ("Game Over", 200, 200);
+  } else if (squareX <= 0) {
+    text ("Game Over", 200, 200);
+  }
+  if (squareY >= 500) {
+    text ("Game Over", 200, 200);
+  } else if (squareY <= 0) {
+    text ("Game Over", 200, 200);
+  }
+}
+
+
+void ResetBalls(){
+    for (int x = 0; x < 12; x = x+1) {
+    xpositions[x] = random(20, 75);
+    println(xpositions[x]);
+  }
+  for (int x = 0; x < 12; x = x+1) {
+    ypositions[x] = random(20, 75);
+    println(ypositions[x]);
+  }
+  ypos = 0;
+  xpos = 0;
+}
+
+void keyPressed() {
+  keyPressedF = true;
+  if (GameOver == true){
+    GameOver = false;
+    ResetBalls();
+    
+  }
+  
+}
